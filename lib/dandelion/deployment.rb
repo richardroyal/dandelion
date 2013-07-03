@@ -40,6 +40,16 @@ module Dandelion
       def write_revision
         @backend.write(@options[:revision_file], local_revision)
       end
+
+
+      # Public: Determine if using a standard CMS and copy
+      # the config file into the appropriate location.
+      def write_production_config
+        if @tree.files.include?("wp-config.prod.php")
+          log.debug("Writing WordPress CMS config file.")
+          @backend.write("wp-config.php", @tree.show("wp-config.prod.php"))
+        end
+      end
       
       def validate
         begin
@@ -53,6 +63,8 @@ module Dandelion
       end
 
       def deploy_additional
+        self.write_production_config
+
         if @options[:additional].nil? || @options[:additional].empty?
           log.debug("No additional files to deploy")
           return
