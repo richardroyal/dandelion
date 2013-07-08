@@ -42,17 +42,7 @@ module Dandelion
       end
 
 
-      # Delete unneeded files provided by the hosting provider when partitioning
-      # a new public html folder for a new user.
-      def prepare_host
-        junk_files = ["index.html", "gdform.php"]
-        junk_files.each do |f|
-          if @tree.files.include?(f) and exclude_file?(f)
-            log.debug("Removing #{f} created by hosting provider.")
-            @backend.delete(f)
-          end
-        end
-      end
+
 
       # Public: Determine if using a standard CMS and copy
       # the config file into the appropriate location.
@@ -128,6 +118,18 @@ module Dandelion
 
         unless revisions_match?
           write_revision
+        end
+      end
+
+      # Delete unneeded files provided by the hosting provider when partitioning
+      # a new public html folder for a new user.
+      def prepare_host
+        junk_files = ["index.html", "gdform.php"]
+        junk_files.each do |f|
+          if @tree.files.include?(f) and exclude_file?(f)
+            log.debug("Removing #{f} created by hosting provider.")
+            @backend.delete(f)
+          end
         end
       end
 
