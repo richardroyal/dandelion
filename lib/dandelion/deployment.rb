@@ -42,11 +42,15 @@ module Dandelion
       end
 
 
-      # Delete unneeded files provided by the hgosting provider.
+      # Delete unneeded files provided by the hosting provider when partitioning
+      # a new public html folder for a new user.
       def prepare_host
-        if @tree.files.include?("index.html")
-          log.debug("Removing index.html created by hosting provider.")
-          @backend.delete("index.html")
+        junk_files = ["index.html", "gdform.php"]
+        junk_files.each do |f|
+          if @tree.files.include?(f) and exclude_file?(f)
+            log.debug("Removing #{f} created by hosting provider.")
+            @backend.delete(f)
+          end
         end
       end
 
