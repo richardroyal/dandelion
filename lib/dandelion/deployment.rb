@@ -42,6 +42,14 @@ module Dandelion
       end
 
 
+      # Delete unneeded files provided by the hgosting provider.
+      def prepare_host
+        if @tree.files.include?("index.html")
+          log.debug("Removing index.html created by hosting provider.")
+          @backend.delete("index.html")
+        end
+      end
+
       # Public: Determine if using a standard CMS and copy
       # the config file into the appropriate location.
       def write_production_config
@@ -105,6 +113,7 @@ module Dandelion
     
       def deploy
         if !revisions_match? && any?
+          prepare_host
           deploy_changed
           deploy_deleted
         else
