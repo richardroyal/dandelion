@@ -128,9 +128,9 @@ module Dandelion
         log.debug "t2"
         junk_files = ["index.html", "gdform.php"]
         junk_files.each do |f|
-          if @backend.file_exist?(f) and !exclude_file?(f)
+          if !exclude_file?(f)
             log.debug("Removing #{f} created by hosting provider.")
-            @backend.delete(f)
+            @backend.delete_without_exception(f)
           end
         end
       end

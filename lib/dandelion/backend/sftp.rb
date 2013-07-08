@@ -52,13 +52,18 @@ module Dandelion
           raise unless e.code == 2
         end
       end
+
+      def delete_without_exception
+        @sftp.remove(path(file))
+        cleanup(File.dirname(path(file)))
+      end
       
       def to_s
         "sftp://#{@config['username']}@#{@config['host']}/#{@config['path']}"
       end
 
       def file_exist?(file)
-        @sftp.stat!(file) do |response|
+        @sftp.stat(file) do |response|
           return true if response.ok?
         end
       end
