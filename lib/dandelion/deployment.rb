@@ -49,6 +49,10 @@ module Dandelion
           log.debug("Writing WordPress CMS config file.")
           @backend.write("wp-config.php", @tree.show("wp-config.prod.php"))
         end
+        if @tree.files.include?("configuration.prod.php")
+          log.debug("Writing Joomla CMS config file.")
+          @backend.write("configuration.php", @tree.show("configuration.prod.php"))
+        end
       end
       
       def validate
