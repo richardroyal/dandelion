@@ -107,7 +107,6 @@ module Dandelion
     
       def deploy
         if !revisions_match? && any?
-          log.debug "t1"
           prepare_host
           deploy_changed
           deploy_deleted
@@ -125,11 +124,11 @@ module Dandelion
       # Delete unneeded files provided by the hosting provider when partitioning
       # a new public html folder for a new user.
       def prepare_host
-        log.debug "t2"
+        log.debug "Deleting junk files created by hosting providers."
         junk_files = ["index.html", "gdform.php"]
         junk_files.each do |f|
           if !exclude_file?(f)
-            log.debug("Removing #{f} created by hosting provider.")
+            #log.debug("Removing #{f} created by hosting provider.")
             @backend.delete_without_exception(f)
           end
         end
