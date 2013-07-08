@@ -53,7 +53,7 @@ module Dandelion
         end
       end
 
-      def delete_without_exception
+      def delete_without_exception(file)
         @sftp.remove(path(file))
         cleanup(File.dirname(path(file)))
       end
