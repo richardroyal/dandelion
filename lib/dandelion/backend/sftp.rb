@@ -57,6 +57,12 @@ module Dandelion
         "sftp://#{@config['username']}@#{@config['host']}/#{@config['path']}"
       end
 
+      def file_exist?(file)
+        @sftp.stat!(file) do |response|
+          return true if response.ok?
+        end
+      end
+
       private
 
       def get_mode(file)
